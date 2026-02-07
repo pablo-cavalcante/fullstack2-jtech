@@ -1,0 +1,1 @@
+cls && gradlew bootRun
