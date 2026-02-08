@@ -12,6 +12,27 @@ export const useTaskStore = defineStore('tasks', () => {
   const pendingTasks = computed(() => tasks.value.filter((t) => !t.completed))
   const taskCount = computed(() => tasks.value.length)
 
+  const getTasksByCategory = computed(() => {
+    return (categoryId: string | null) => {
+      if (categoryId === null) {
+        return tasks.value.filter(t => !t.categoryId)
+      }
+      return tasks.value.filter(t => t.categoryId === categoryId)
+    }
+  })
+
+  const getCompletedTasksByCategory = computed(() => {
+    return (categoryId: string | null) => {
+      return getTasksByCategory.value(categoryId).filter(t => t.completed)
+    }
+  })
+
+  const getPendingTasksByCategory = computed(() => {
+    return (categoryId: string | null) => {
+      return getTasksByCategory.value(categoryId).filter(t => !t.completed)
+    }
+  })
+
   async function fetchTasks() {
     loading.value = true
     error.value = null
@@ -19,6 +40,7 @@ export const useTaskStore = defineStore('tasks', () => {
       tasks.value = await taskService.getTasks()
     } catch (e: unknown) {
       error.value = e instanceof Error ? e.message : 'Failed to load tasks'
+      console.error('Error fetching tasks:', e)
     } finally {
       loading.value = false
     }
@@ -29,8 +51,10 @@ export const useTaskStore = defineStore('tasks', () => {
     try {
       const task = await taskService.createTask(data)
       tasks.value.unshift(task)
+      return task
     } catch (e: unknown) {
       error.value = e instanceof Error ? e.message : 'Failed to create task'
+      console.error('Error creating task:', e)
       throw e
     }
   }
@@ -43,8 +67,10 @@ export const useTaskStore = defineStore('tasks', () => {
       if (index !== -1) {
         tasks.value[index] = updated
       }
+      return updated
     } catch (e: unknown) {
       error.value = e instanceof Error ? e.message : 'Failed to update task'
+      console.error('Error updating task:', e)
       throw e
     }
   }
@@ -56,6 +82,7 @@ export const useTaskStore = defineStore('tasks', () => {
       tasks.value = tasks.value.filter((t) => t.id !== id)
     } catch (e: unknown) {
       error.value = e instanceof Error ? e.message : 'Failed to delete task'
+      console.error('Error deleting task:', e)
       throw e
     }
   }
@@ -65,7 +92,21 @@ export const useTaskStore = defineStore('tasks', () => {
       title: task.title,
       description: task.description ?? undefined,
       completed: !task.completed,
+      categoryId: task.categoryId ?? undefined,
     })
+  }
+
+  function getTasksByCategoryId(categoryId: string | null): Task[] {
+    if (categoryId === null) {
+      return tasks.value.filter(t => !t.categoryId)
+    }
+    return tasks.value.filter(t => t.categoryId === categoryId)
+  }
+
+  function $reset() {
+    tasks.value = []
+    loading.value = false
+    error.value = null
   }
 
   return {
@@ -75,10 +116,22 @@ export const useTaskStore = defineStore('tasks', () => {
     completedTasks,
     pendingTasks,
     taskCount,
+    getTasksByCategory,
+    getCompletedTasksByCategory,
+    getPendingTasksByCategory,
     fetchTasks,
     createTask,
     updateTask,
     deleteTask,
     toggleComplete,
+    getTasksByCategoryId,
+    $reset,
+  }
+}, {
+  persist: {
+    key: 'tasks-store',
+    storage: localStorage,
+    paths: ['tasks']
   }
 })
+

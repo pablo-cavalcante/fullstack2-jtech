@@ -2,6 +2,8 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { authService } from '@/services/authService'
 import type { User, LoginRequest, RegisterRequest } from '@/types'
+import { useTaskStore } from './tasks'
+import { useCategoryStore } from './categories'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
@@ -52,12 +54,24 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function logout() {
+    // Limpa estado da auth
     user.value = null
     token.value = null
     refreshToken.value = null
     localStorage.removeItem('token')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('user')
+    
+    // Limpa outras stores
+    const taskStore = useTaskStore()
+    const categoryStore = useCategoryStore()
+    
+    taskStore.$reset()
+    categoryStore.$reset()
+    
+    // Limpa storage das stores
+    localStorage.removeItem('tasks-store')
+    localStorage.removeItem('categories-store')
   }
 
   async function doRefreshToken() {
@@ -84,5 +98,11 @@ export const useAuthStore = defineStore('auth', () => {
     register,
     logout,
     doRefreshToken,
+  }
+}, {
+  persist: {
+    key: 'auth-store',
+    storage: localStorage,
+    paths: ['user', 'token', 'refreshToken']
   }
 })
