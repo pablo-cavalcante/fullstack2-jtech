@@ -5,11 +5,20 @@ export interface User {
   createdAt: string
 }
 
+export interface Category {
+  id: string
+  title: string
+  description: string | null
+  createdAt: string
+  updatedAt: string
+}
+
 export interface Task {
   id: string
   title: string
   description: string | null
   completed: boolean
+  categoryId: string | null
   createdAt: string
   updatedAt: string
 }
@@ -25,10 +34,16 @@ export interface RegisterRequest {
   password: string
 }
 
+export interface CategoryRequest {
+  title: string
+  description?: string
+}
+
 export interface TaskRequest {
   title: string
   description?: string
   completed?: boolean
+  categoryId?: string
 }
 
 export interface AuthResponse {
