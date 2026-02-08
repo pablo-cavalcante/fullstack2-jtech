@@ -1,0 +1,28 @@
+# This workflow will build a project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: CD_CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Frontend Install
+      run: |
+        COMANDOS COPIAR FRONTEND COMPILADO OU COMPILAR
+        
+    steps:
+    - uses: actions/checkout@v3
+    - name: Backend Install
+      run: |
+        COMANDOS BUILDER E INSTALL
+        
