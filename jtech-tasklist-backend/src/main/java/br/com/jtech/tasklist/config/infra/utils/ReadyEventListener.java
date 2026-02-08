@@ -11,7 +11,7 @@
  *
  */
 
-package br.com.jtech.tasklist.config.infra.utils;
+package br.com.jtech.tasklist.config.infra.listeners;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

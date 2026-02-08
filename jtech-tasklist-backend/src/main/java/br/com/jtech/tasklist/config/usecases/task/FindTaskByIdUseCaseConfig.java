@@ -1,7 +1,7 @@
 package br.com.jtech.tasklist.config.usecases.task;
 
 import br.com.jtech.tasklist.adapters.output.task.FindTaskByIdAdapter;
-import br.com.jtech.tasklist.application.core.usecases.FindTaskByIdUseCase;
+import br.com.jtech.tasklist.application.core.usecases.Task.FindTaskByIdUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

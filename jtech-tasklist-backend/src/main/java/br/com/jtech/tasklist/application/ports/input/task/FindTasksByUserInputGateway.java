@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface FindTasksByUserInputGateway {
     List<Task> findByUserId(String userId);
+    List<Task> findByUserIdAndCategoryId(String userId, String categoryId);
 }

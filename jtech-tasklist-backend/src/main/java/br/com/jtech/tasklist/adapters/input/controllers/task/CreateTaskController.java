@@ -23,7 +23,7 @@ public class CreateTaskController {
 
     @PostMapping
     public ResponseEntity<TaskResponse> create(@Valid @RequestBody TaskRequest request,
-                                                Authentication authentication) {
+                                               Authentication authentication) {
         var task = Task.of(request);
         task.setUserId(authentication.getPrincipal().toString());
         var created = createTaskInputGateway.create(task);

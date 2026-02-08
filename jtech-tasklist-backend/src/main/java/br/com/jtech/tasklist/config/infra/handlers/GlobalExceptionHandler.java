@@ -35,6 +35,14 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(error);
     }
 
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ApiError> handleCategoryNotFound(CategoryNotFoundException ex) {
+        log.error("Category not found: {}", ex.getMessage());
+        ApiError error = new ApiError(HttpStatus.NOT_FOUND);
+        error.setMessage(ex.getMessage());
+        return buildResponseEntity(error);
+    }
+
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ApiError> handleUserAlreadyExists(UserAlreadyExistsException ex) {
         log.error("User already exists: {}", ex.getMessage());

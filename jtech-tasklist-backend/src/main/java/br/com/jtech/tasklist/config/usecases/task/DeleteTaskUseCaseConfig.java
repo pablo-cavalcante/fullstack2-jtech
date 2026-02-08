@@ -2,7 +2,7 @@ package br.com.jtech.tasklist.config.usecases.task;
 
 import br.com.jtech.tasklist.adapters.output.task.DeleteTaskAdapter;
 import br.com.jtech.tasklist.adapters.output.task.FindTaskByIdAdapter;
-import br.com.jtech.tasklist.application.core.usecases.DeleteTaskUseCase;
+import br.com.jtech.tasklist.application.core.usecases.Task.DeleteTaskUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

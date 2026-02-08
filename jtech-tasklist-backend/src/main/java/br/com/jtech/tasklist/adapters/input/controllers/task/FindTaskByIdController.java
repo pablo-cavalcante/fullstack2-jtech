@@ -19,7 +19,7 @@ public class FindTaskByIdController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskResponse> findById(@PathVariable String id,
-                                                  Authentication authentication) {
+                                                 Authentication authentication) {
         var userId = authentication.getPrincipal().toString();
         var task = findTaskByIdInputGateway.findById(id, userId);
         return ResponseEntity.ok(TaskResponse.of(task));

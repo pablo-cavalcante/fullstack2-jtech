@@ -24,4 +24,6 @@ public class TaskRequest implements Serializable {
     private String description;
 
     private Boolean completed;
+
+    private String categoryId;
 }

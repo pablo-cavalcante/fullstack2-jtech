@@ -20,4 +20,10 @@ public class FindTasksByUserAdapter implements FindTasksByUserOutputGateway {
         var entities = repository.findByUserId(UUID.fromString(userId));
         return Task.of(entities);
     }
+
+    @Override
+    public List<Task> findByUserIdAndCategoryId(String userId, String categoryId) {
+        var entities = repository.findByUserIdAndCategoryId(UUID.fromString(userId), UUID.fromString(categoryId));
+        return Task.of(entities);
+    }
 }

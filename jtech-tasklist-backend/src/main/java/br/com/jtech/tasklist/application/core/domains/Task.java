@@ -1,6 +1,7 @@
 package br.com.jtech.tasklist.application.core.domains;
 
 import br.com.jtech.tasklist.adapters.input.protocols.task.TaskRequest;
+import br.com.jtech.tasklist.adapters.output.repositories.entities.CategoryEntity;
 import br.com.jtech.tasklist.adapters.output.repositories.entities.TaskEntity;
 import br.com.jtech.tasklist.adapters.output.repositories.entities.UserEntity;
 import lombok.*;
@@ -24,6 +25,7 @@ public class Task {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String userId;
+    private String categoryId;
 
     public static List<Task> of(List<TaskEntity> entities) {
         return entities.stream().map(Task::of).toList();
@@ -40,6 +42,9 @@ public class Task {
         if (getUserId() != null) {
             builder.user(UserEntity.builder().id(UUID.fromString(getUserId())).build());
         }
+        if (getCategoryId() != null) {
+            builder.category(CategoryEntity.builder().id(UUID.fromString(getCategoryId())).build());
+        }
         return builder.build();
     }
 
@@ -52,6 +57,7 @@ public class Task {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .userId(entity.getUser() != null ? entity.getUser().getId().toString() : null)
+                .categoryId(entity.getCategory() != null ? entity.getCategory().getId().toString() : null)
                 .build();
     }
 
@@ -61,6 +67,7 @@ public class Task {
                 .title(request.getTitle())
                 .description(request.getDescription())
                 .completed(request.getCompleted())
+                .categoryId(request.getCategoryId())
                 .build();
     }
 }

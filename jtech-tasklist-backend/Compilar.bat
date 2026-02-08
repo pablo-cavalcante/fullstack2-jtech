@@ -1,0 +1,1 @@
+cls && gradlew clean build --warning-mode all

@@ -22,6 +22,7 @@ public class TaskResponse implements Serializable {
     private String title;
     private String description;
     private Boolean completed;
+    private String categoryId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -32,6 +33,7 @@ public class TaskResponse implements Serializable {
                 .description(task.getDescription())
                 .completed(task.getCompleted())
                 .createdAt(task.getCreatedAt())
+                .categoryId(task.getCategoryId())
                 .updatedAt(task.getUpdatedAt())
                 .build();
     }
